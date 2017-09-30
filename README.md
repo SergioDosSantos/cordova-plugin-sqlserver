@@ -54,6 +54,15 @@ At this moment there is a general purpose method, just execute the query on serv
     alert("Error : " + JSON.stringify(error));
   });				
   ```
+ 
+You can call a Store Procedure also
+```
+	SqlServer.execute("exec i_store_test '500048', '1', 'MMMM'", function(event) {
+		alert(JSON.stringify(event));
+	}, function(error) {
+		alert("Error : " + JSON.stringify(error));
+	});
+``` 
   
 # How to Contribute
 

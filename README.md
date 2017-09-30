@@ -62,8 +62,44 @@ You can call a Store Procedure also
   }, function(error) {
     alert("Error : " + JSON.stringify(error));
   });
-``` 
+```
+ 
+# Important
   
+If you need subsequent calls to the database in the ios version you will not be able to do the following
+
+```
+  SqlServer.execute("select * from test_table where test_code=1", function(event) {
+    alert(JSON.stringify(event));
+  }, function(error) {
+    alert("Error : " + JSON.stringify(error));
+  });				
+
+  SqlServer.execute("exec i_store_test '500048', '1', 'MMMM'", function(event) {
+    alert(JSON.stringify(event));
+  }, function(error) {
+    alert("Error : " + JSON.stringify(error));
+  });
+```
+
+You must do this in the following way to avoid EXCE_BAD_ACCESS error
+
+```
+  SqlServer.execute("select * from test_table where test_code=1", function(event) {
+    
+	// On first call completed
+    SqlServer.execute("exec i_store_test '500048', '1', 'MMMM'", function(event) {
+      alert(JSON.stringify(event));
+  	}, function(error) {
+      alert("Error : " + JSON.stringify(error));
+    });
+
+  }, function(error) {
+    alert("Error : " + JSON.stringify(error));
+  });				
+
+```
+
 # How to Contribute
 
 Contributors are welcome! And we need your contributions to keep the project moving forward. 

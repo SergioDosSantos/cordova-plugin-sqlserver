@@ -22,6 +22,8 @@ cordova plugin add /path/to/folder/sqlserver-plugin
 cordova plugin add https://github.com/SergioDosSantos/cordova-plugin-sqlserver.git
 ```
 
+To install directly from NPM visit https://www.npmjs.com/package/cordova-plugin-sqlserver
+
 # How to use it
 
   After add the plugin just intialize it with database parameters server, instance, username, password, database name. For example:

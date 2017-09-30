@@ -45,7 +45,7 @@ On succes in this case it will return "Connection succeeded"
 
 # Query execution
 
-At the moment this method is implemented execute of general purpose, just execute the query on server side and return a JSON array
+At this moment there is a general purpose method, just execute the query on server side and return a JSON array
 
   ```
   SqlServer.execute("select * from test_table where test_code=1", function(event) {

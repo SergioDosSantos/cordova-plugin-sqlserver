@@ -26,7 +26,7 @@ cordova plugin add https://github.com/SergioDosSantos/cordova-plugin-sqlserver.g
 
   After add the plugin just intialize it with database parameters server, instance, username, password, database name. For example:
 
-```
+```javascript
 SqlServer.init("192.168.0.120", "SQLEXPRESS", "sa", "01234567", "dinademo", function(event) {
   alert(JSON.stringify(event));
 }, function(error) {
@@ -38,7 +38,7 @@ On success it will return "Plugin initialized"
 
 After that you can test your database connection with
 
-```
+```javascript
 SqlServer.testConnection(function(event) {
   alert(JSON.stringify(event));
 }, function(error) {
@@ -51,14 +51,14 @@ On succes in this case it will return "Connection succeeded"
 
 At this moment there is two general purpose methods:
 
-*executeQuery : Just execute the query on server side and return a JSON formatted array
-*execute: Execute an INSERT, UPDATE, DELETE and return "Ok" when succed or the database error on fail
+* executeQuery : Just execute the query on server side and return a JSON formatted array
+* execute: Execute an INSERT, UPDATE, DELETE and return "Ok" when succed or the database error on fail
 
 # executeQuery method 
 
 Once the plugin is initialized you can execute a query on SQL Server by doing 
 
-```
+```javascript
 SqlServer.executeQuery("select * from test_table where test_code=1", function(event) {
   alert(JSON.stringify(event));
 }, function(error) {
@@ -67,7 +67,8 @@ SqlServer.executeQuery("select * from test_table where test_code=1", function(ev
 ```
  
 You can call a Store Procedure also
-```
+
+```javascript
 SqlServer.executeQuery("exec i_store_test '500048', '1', 'MMMM'", function(event) {
   alert(JSON.stringify(event));
 }, function(error) {
@@ -79,7 +80,7 @@ SqlServer.executeQuery("exec i_store_test '500048', '1', 'MMMM'", function(event
 
 In order to execute an INSERT, DELETE or UPDATE just use somethig like
 
-```
+```javascript
 SqlServer.execute("update table_test set field_test=22 where key_test=500048", function(event) {
   alert("Update complete : " + JSON.stringify(event));
 }, function(error) {
@@ -91,7 +92,7 @@ SqlServer.execute("update table_test set field_test=22 where key_test=500048", f
   
 If you need subsequent calls to the database in the ios version you will not be able to do the following
 
-```
+```javascript
 SqlServer.executeQuery("select * from test_table where test_code=1", function(event) {
   alert(JSON.stringify(event));
 }, function(error) {
@@ -107,7 +108,7 @@ SqlServer.executeQuery("exec i_store_test '500048', '1', 'MMMM'", function(event
 
 You must do this in the following way to avoid EXCE_BAD_ACCESS error on ios platforms
 
-```
+```javascript
 SqlServer.executeQuery("select * from test_table where test_code=1", function(event) {
     
   // On first call completed

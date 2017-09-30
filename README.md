@@ -131,6 +131,6 @@ You can report bugs to sdossantos@y3k-it.com or contribute with code.
 
 # Credits
 
-SQLCliente for Xcode [[https://github.com/martinrybak/SQLClient]]
-QREventos [[http://www.qreventos.com]]
-Y3K-it [[http://www.y3k-it.com]]
+* SQLCliente for Xcode [[https://github.com/martinrybak/SQLClient]]
+* QREventos [[http://www.qreventos.com]]
+* Y3K-it [[http://www.y3k-it.com]]

@@ -12,9 +12,10 @@
 @property(nonatomic, retain) NSString *password;
 @property(nonatomic, retain) NSString *database;
 
-- (void)init:(CDVInvokedUrlCommand *)command;
-- (void)testConnection:(CDVInvokedUrlCommand *)command;
-- (void)execute:(CDVInvokedUrlCommand *)command;
+-(void)init:(CDVInvokedUrlCommand *)command;
+-(void)testConnection:(CDVInvokedUrlCommand *)command;
+-(void)executeQuery:(CDVInvokedUrlCommand *)command;
+-(void)execute:(CDVInvokedUrlCommand *)command;
 
 
 @end

@@ -11,8 +11,11 @@ var SqlServer = {
 		testConnection: function(success, error) {
 			exec(success, error, PLUGIN_NAME, 'testConnection', null);
 		},  
-		execute: function(query, success, error) {
-			exec(success, error, PLUGIN_NAME, 'execute', [query]);
+		executeQuery: function(query, success, error) {
+			exec(success, error, PLUGIN_NAME, 'executeQuery', [query]);
+		},
+		execute: function(sql, success, error) {
+			exec(success, error, PLUGIN_NAME, 'execute', [sql]);
 		},
   
 };

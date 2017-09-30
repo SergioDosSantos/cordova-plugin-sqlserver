@@ -66,6 +66,42 @@
 }
 
 
+- (void)executeQuery:(CDVInvokedUrlCommand *)command {
+
+ 	NSString *query = [command.arguments objectAtIndex:0];
+
+	if (query == nil || [query length] == 0) {
+		CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Parameter query missing or invalid"];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        return;
+	}
+
+    SQLClient* client = [SQLClient sharedInstance];
+    client.delegate = self;
+    [client connect:[self getServer] username:self.username password:self.password database:self.database completion:^(BOOL success) {
+        if (success) {
+            
+            NSString *sql = [NSString stringWithFormat:@"%@", query];
+            [client execute:sql completion:^(NSArray* results) {
+                
+                NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:results options:NSJSONWritingPrettyPrinted error:nil];
+                NSString *jsonString = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
+                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonString];
+                    
+                [client disconnect];
+                [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+
+            }];
+        
+        }
+        else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
+    }];
+
+}
+
 - (void)execute:(CDVInvokedUrlCommand *)command {
 
  	NSString *query = [command.arguments objectAtIndex:0];
@@ -81,12 +117,10 @@
     [client connect:[self getServer] username:self.username password:self.password database:self.database completion:^(BOOL success) {
         if (success) {
             
-            NSString *storeSql = [NSString stringWithFormat:@"%@", query];
-            [client execute:storeSql completion:^(NSArray* results) {
+            NSString *sql = [NSString stringWithFormat:@"%@", query];
+            [client execute:sql completion:^(NSArray* results) {
                 
-                NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:results options:NSJSONWritingPrettyPrinted error:nil];
-                NSString *jsonString = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
-                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonString];
+                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:"Ok"];
                     
                 [client disconnect];
                 [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];

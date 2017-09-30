@@ -51,10 +51,8 @@ On succes in this case it will return "Connection succeeded"
 
 At this moment there is two general purpose methods:
 
-```
-executeQuery : Just execute the query on server side and return a JSON formatted array
-execute: Execute an INSERT, UPDATE, DELETE and return "Ok" when succed or the database error on fail
-```
+*executeQuery : Just execute the query on server side and return a JSON formatted array
+*execute: Execute an INSERT, UPDATE, DELETE and return "Ok" when succed or the database error on fail
 
 # executeQuery method 
 

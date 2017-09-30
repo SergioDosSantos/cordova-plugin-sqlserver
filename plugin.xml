@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    id="cordova-plugin-sqlserver"
+    version="1.0.0">
+    <name>Cordova Plugin SQL Server</name>
+    <description></description>
+    <license>MIT</license>
+    <keywords></keywords>
+    <repo>https://github.com/driftyco/cordova-plugin-template.git</repo>
+    <issue>https://github.com/driftyco/cordova-plugin-template/issues</issue>
+
+    <!-- android -->
+    <platform name="android">
+      <js-module src="www/plugin.js" name="plugin">
+        <runs/>
+        <clobbers target="SqlServer" />
+      </js-module>
+      <config-file target="res/xml/config.xml" parent="/*">
+        <feature name="SqlServer">
+          <param name="android-package" value="com.y3k.SqlServer" />
+          <param name="onload" value="true" />
+        </feature>
+      </config-file>
+
+	  <framework src="net.sourceforge.jtds:jtds:1.2.7" />
+
+      <source-file src="src/android/com/y3k/SqlServer.java" target-dir="src/com/y3k/" />
+    </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+        <js-module src="www/plugin.js" name="plugin">
+            <runs/>
+            <clobbers target="SqlServer" />
+        </js-module>
+        <config-file target="config.xml" parent="/*">
+            <feature name="SqlServer">
+                <param name="ios-package" value="SqlServer" onload="true" />
+            </feature>
+        </config-file>
+
+      	<framework src="libiconv.tbd" />
+		<source-file src="src/ios/SQLClient/libfreetds.a" framework="true" />
+
+        <header-file src="src/ios/SQLClient/bkpublic.h" />
+        <header-file src="src/ios/SQLClient/cspublic.h" />
+        <header-file src="src/ios/SQLClient/cstypes.h" />
+        <header-file src="src/ios/SQLClient/ctpublic.h" />
+        <header-file src="src/ios/SQLClient/odbcss.h" />
+        <header-file src="src/ios/SQLClient/sqldb.h" />
+        <header-file src="src/ios/SQLClient/sqlfront.h" />
+        <header-file src="src/ios/SQLClient/sybdb.h" />
+        <header-file src="src/ios/SQLClient/syberror.h" />
+        <header-file src="src/ios/SQLClient/sybfront.h" />
+        <header-file src="src/ios/SQLClient/tds_sysdep_public.h" />        
+        <header-file src="src/ios/SQLClient/SQLClient.h" />
+        <source-file src="src/ios/SQLClient/SQLClient.m" />
+
+        <header-file src="src/ios/SqlServer.h" />
+        <source-file src="src/ios/SqlServer.m" />
+        
+        
+    </platform>
+</plugin>

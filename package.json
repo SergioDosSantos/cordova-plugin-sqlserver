@@ -1,0 +1,8 @@
+{
+  "name": "cordova-plugin-sqlserver",
+  "version": "1.0.0",
+  "cordova": {
+    "id": "cordova-plugin-sqlserver"
+  },
+  "description": "Access to SQL Server database directly without any service"
+}

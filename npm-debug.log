@@ -1,0 +1,99 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish', '.' ]
+2 info using npm@3.10.10
+3 info using node@v6.11.2
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   escapedName: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/sdossantos/Documents/workspace.eclipse.luna/sqlserver-cordova-plugin/sqlserver-plugin',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/sdossantos/.npm/cordova-plugin-sqlserver/1.0.0/package.tgz not in flight; packing
+9 verbose correctMkdir /Users/sdossantos/.npm correctMkdir not in flight; initializing
+10 info lifecycle cordova-plugin-sqlserver@1.0.0~prepublish: cordova-plugin-sqlserver@1.0.0
+11 silly lifecycle cordova-plugin-sqlserver@1.0.0~prepublish: no script for prepublish, continuing
+12 verbose tar pack [ '/Users/sdossantos/.npm/cordova-plugin-sqlserver/1.0.0/package.tgz',
+12 verbose tar pack   '/Users/sdossantos/Documents/workspace.eclipse.luna/sqlserver-cordova-plugin/sqlserver-plugin' ]
+13 verbose tarball /Users/sdossantos/.npm/cordova-plugin-sqlserver/1.0.0/package.tgz
+14 verbose folder /Users/sdossantos/Documents/workspace.eclipse.luna/sqlserver-cordova-plugin/sqlserver-plugin
+15 verbose addLocalTarball adding from inside cache /Users/sdossantos/.npm/cordova-plugin-sqlserver/1.0.0/package.tgz
+16 verbose correctMkdir /Users/sdossantos/.npm correctMkdir not in flight; initializing
+17 silly cache afterAdd cordova-plugin-sqlserver@1.0.0
+18 verbose afterAdd /Users/sdossantos/.npm/cordova-plugin-sqlserver/1.0.0/package/package.json not in flight; writing
+19 verbose correctMkdir /Users/sdossantos/.npm correctMkdir not in flight; initializing
+20 verbose afterAdd /Users/sdossantos/.npm/cordova-plugin-sqlserver/1.0.0/package/package.json written
+21 silly publish { name: 'cordova-plugin-sqlserver',
+21 silly publish   version: '1.0.0',
+21 silly publish   cordova: { id: 'cordova-plugin-sqlserver' },
+21 silly publish   description: 'Access to SQL Server database directly without any service',
+21 silly publish   keywords: [ 'ecosystem:cordova', 'cordova-android', 'cordova-ios' ],
+21 silly publish   readme: '# cordova-plugin-sqlserver\nCordova Plugin to connect to SQL Server without services\n\nSometimes we need to access to databse directly without any server as middleware. \nThe purpose of this plugin is to avoid using services to access data directly.\n\nIt can be used on Cordova, PhoneGap and Ionic.\n\nThis version is compatible with iOS and Android platforms.\n\n# Instalation\n\n  You can download the plugin and add it to your project as a local plugin\n  \n```\ncordova plugin add /path/to/folder/sqlserver-plugin\n```\n\n  It is also possible to install via repo url directly\n  \n```\ncordova plugin add https://github.com/SergioDosSantos/cordova-plugin-sqlserver.git\n```\n\n# How to use it\n\n  After add the plugin just intialize it with database parameters server, instance, username, password, database name. For example:\n\n```javascript\nSqlServer.init("192.168.0.120", "SQLEXPRESS", "sa", "01234567", "dinademo", function(event) {\n  alert(JSON.stringify(event));\n}, function(error) {\n  alert(JSON.stringify(error));\n});\n```\n\nOn success it will return "Plugin initialized"\n\nAfter that you can test your database connection with\n\n```javascript\nSqlServer.testConnection(function(event) {\n  alert(JSON.stringify(event));\n}, function(error) {\n  alert("Error : " + JSON.stringify(error));\n});\t\t\t\t\n```\nOn succes in this case it will return "Connection succeeded"\n\n# Query execution\n\nAt this moment there is two general purpose methods:\n\n* executeQuery : Just execute the query on server side and return a JSON formatted array\n* execute: Execute an INSERT, UPDATE, DELETE and return "Ok" when succed or the database error on fail\n\n# executeQuery method \n\nOnce the plugin is initialized you can execute a query on SQL Server by doing \n\n```javascript\nSqlServer.executeQuery("select * from test_table where test_code=1", function(event) {\n  alert(JSON.stringify(event));\n}, function(error) {\n  alert("Error : " + JSON.stringify(error));\n});\t\t\t\t\n```\n \nYou can call a Store Procedure also\n\n```javascript\nSqlServer.executeQuery("exec i_store_test \'500048\', \'1\', \'MMMM\'", function(event) {\n  alert(JSON.stringify(event));\n}, function(error) {\n  alert("Error : " + JSON.stringify(error));\n});\n```\n \n# execute method\n\nIn order to execute an INSERT, DELETE or UPDATE just use somethig like\n\n```javascript\nSqlServer.execute("update table_test set field_test=22 where key_test=500048", function(event) {\n  alert("Update complete : " + JSON.stringify(event));\n}, function(error) {\n  alert("Error : " + JSON.stringify(error));\n});\n```\n\n# Important\n  \nIf you need subsequent calls to the database in the ios version you will not be able to do the following\n\n```javascript\nSqlServer.executeQuery("select * from test_table where test_code=1", function(event) {\n  alert(JSON.stringify(event));\n}, function(error) {\n  alert("Error : " + JSON.stringify(error));\n});\t\t\t\t\n\nSqlServer.executeQuery("exec i_store_test \'500048\', \'1\', \'MMMM\'", function(event) {\n  alert(JSON.stringify(event));\n}, function(error) {\n  alert("Error : " + JSON.stringify(error));\n});\n```\n\nYou must do this in the following way to avoid EXCE_BAD_ACCESS error on ios platforms\n\n```javascript\nSqlServer.executeQuery("select * from test_table where test_code=1", function(event) {\n    \n  // On first call completed\n  SqlServer.executeQuery("exec i_store_test \'500048\', \'1\', \'MMMM\'", function(event) {\n    alert(JSON.stringify(event));\n  }, function(error) {\n    alert("Error : " + JSON.stringify(error));\n  });\n  \n}, function(error) {\n  alert("Error : " + JSON.stringify(error));\n});\t\t\t\t\n\n```\n\n# How to Contribute\n\nContributors are welcome! And we need your contributions to keep the project moving forward. \nYou can report bugs to sdossantos@y3k-it.com or contribute with code.\n\n# Credits\n\n* SQLCliente for Xcode https://github.com/martinrybak/SQLClient\n\n# For more information about us visit\n\n* QREventos http://www.qreventos.com\n* Y3K-it http://www.y3k-it.com\n',
+21 silly publish   readmeFilename: 'README.md',
+21 silly publish   _id: 'cordova-plugin-sqlserver@1.0.0',
+21 silly publish   scripts: {},
+21 silly publish   _shasum: '4db5f7053e165eb574afd06e1ec9e1358e818b2f',
+21 silly publish   _from: '.' }
+22 verbose getPublishConfig undefined
+23 silly mapToRegistry name cordova-plugin-sqlserver
+24 silly mapToRegistry using default registry
+25 silly mapToRegistry registry https://registry.npmjs.org/
+26 silly mapToRegistry data Result {
+26 silly mapToRegistry   raw: 'cordova-plugin-sqlserver',
+26 silly mapToRegistry   scope: null,
+26 silly mapToRegistry   escapedName: 'cordova-plugin-sqlserver',
+26 silly mapToRegistry   name: 'cordova-plugin-sqlserver',
+26 silly mapToRegistry   rawSpec: '',
+26 silly mapToRegistry   spec: 'latest',
+26 silly mapToRegistry   type: 'tag' }
+27 silly mapToRegistry uri https://registry.npmjs.org/cordova-plugin-sqlserver
+28 verbose publish registryBase https://registry.npmjs.org/
+29 silly publish uploading /Users/sdossantos/.npm/cordova-plugin-sqlserver/1.0.0/package.tgz
+30 verbose request uri https://registry.npmjs.org/cordova-plugin-sqlserver
+31 verbose request sending authorization for write operation
+32 info attempt registry request try #1 at 1:59:33 AM
+33 verbose request using bearer token for auth
+34 verbose request id 99ab7068d105afb5
+35 http request PUT https://registry.npmjs.org/cordova-plugin-sqlserver
+36 http 403 https://registry.npmjs.org/cordova-plugin-sqlserver
+37 verbose headers { 'content-type': 'application/json',
+37 verbose headers   'cache-control': 'max-age=300',
+37 verbose headers   'content-length': '91',
+37 verbose headers   'accept-ranges': 'bytes',
+37 verbose headers   date: 'Sat, 30 Sep 2017 04:59:39 GMT',
+37 verbose headers   via: '1.1 varnish',
+37 verbose headers   connection: 'keep-alive',
+37 verbose headers   'x-served-by': 'cache-gru17132-GRU',
+37 verbose headers   'x-cache': 'MISS',
+37 verbose headers   'x-cache-hits': '0',
+37 verbose headers   'x-timer': 'S1506747574.018497,VS0,VE5781',
+37 verbose headers   vary: 'Accept-Encoding, Accept' }
+38 verbose request invalidating /Users/sdossantos/.npm/registry.npmjs.org/cordova-plugin-sqlserver on PUT
+39 error publish Failed PUT 403
+40 verbose stack Error: You cannot publish over the previously published version 1.0.0. : cordova-plugin-sqlserver
+40 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:302:12)
+40 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:290:14)
+40 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:210:14)
+40 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:187:22)
+40 verbose stack     at emitTwo (events.js:106:13)
+40 verbose stack     at Request.emit (events.js:191:7)
+40 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1048:10)
+40 verbose stack     at emitOne (events.js:96:13)
+40 verbose stack     at Request.emit (events.js:188:7)
+40 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:969:12)
+41 verbose statusCode 403
+42 verbose pkgid cordova-plugin-sqlserver
+43 verbose cwd /Users/sdossantos/Documents/workspace.eclipse.luna/sqlserver-cordova-plugin/sqlserver-plugin
+44 error Darwin 16.7.0
+45 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish" "."
+46 error node v6.11.2
+47 error npm  v3.10.10
+48 error code E403
+49 error You cannot publish over the previously published version 1.0.0. : cordova-plugin-sqlserver
+50 error If you need help, you may report this error at:
+50 error     <https://github.com/npm/npm/issues>
+51 verbose exit [ 1, true ]

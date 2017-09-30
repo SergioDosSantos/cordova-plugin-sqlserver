@@ -4,5 +4,10 @@
   "cordova": {
     "id": "cordova-plugin-sqlserver"
   },
-  "description": "Access to SQL Server database directly without any service"
+  "description": "Access to SQL Server database directly without any service",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ]
 }

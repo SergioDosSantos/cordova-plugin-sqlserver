@@ -84,7 +84,7 @@
             NSString *sql = [NSString stringWithFormat:@"%@", query];
             [client execute:sql completion:^(NSArray* results) {
                 
-                NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:results options:NSJSONWritingPrettyPrinted error:nil];
+                NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:results options:0 error:nil];
                 NSString *jsonString = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
                 CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonString];
                     

@@ -120,8 +120,8 @@
             NSString *sql = [NSString stringWithFormat:@"%@", query];
             [client execute:sql completion:^(NSArray* results) {
                 
-                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:"Ok"];
-                    
+                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Ok"];
+
                 [client disconnect];
                 [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 

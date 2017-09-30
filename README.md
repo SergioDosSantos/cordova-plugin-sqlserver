@@ -6,7 +6,7 @@ The purpose of this plugin is to avoid using services to access data directly.
 
 It can be used on Cordova, PhoneGap and Ionic.
 
-This version is compatible with the ios platform, the Android version is in progress.
+This version is compatible with iOS and Android platforms.
 
 # Instalation
 

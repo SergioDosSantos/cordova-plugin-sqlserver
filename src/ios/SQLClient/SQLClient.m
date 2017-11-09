@@ -207,7 +207,11 @@ struct COL
 				//returns (for fixed-length datatypes). We also do not need to convert IMAGE data type
 				if (pcol->type != SYBCHAR && pcol->type != SYBTEXT && pcol->type != SYBIMAGE)
 					pcol->size = dbwillconvert(pcol->type, SYBCHAR);
-				
+
+                if(pcol->type == SYBINT4) {
+                    pcol->size = 10;
+                }
+                
 				//Allocate memory in the current pcol struct for a buffer
 				if ((pcol->buffer = calloc(1, pcol->size + 1)) == NULL)
 					return [self executionFailure:completion];

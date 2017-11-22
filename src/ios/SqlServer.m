@@ -84,6 +84,11 @@
             NSString *sql = [NSString stringWithFormat:@"%@", query];
             [client execute:sql completion:^(NSArray* results) {
                 
+                if(results == NULL) {
+                    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error"];
+                    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+                }
+                
                 NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:results options:0 error:nil];
                 NSString *jsonString = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
                 CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonString];
@@ -120,6 +125,11 @@
             NSString *sql = [NSString stringWithFormat:@"%@", query];
             [client execute:sql completion:^(NSArray* results) {
                 
+                if(results == NULL) {
+                    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error"];
+                    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+                }
+
                 CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Ok"];
 
                 [client disconnect];

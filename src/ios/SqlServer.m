@@ -85,8 +85,10 @@
             [client execute:sql completion:^(NSArray* results) {
                 
                 if(results == NULL) {
-                    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error"];
+                    NSString *message =  [NSString stringWithFormat:@"SQL Error [%@]", sql];
+                    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message];
                     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+                    return;
                 }
                 
                 NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:results options:0 error:nil];
@@ -126,8 +128,10 @@
             [client execute:sql completion:^(NSArray* results) {
                 
                 if(results == NULL) {
-                    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error"];
+                    NSString *message =  [NSString stringWithFormat:@"SQL Error [%@]", sql];
+                    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message];
                     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+                    return;
                 }
 
                 CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Ok"];

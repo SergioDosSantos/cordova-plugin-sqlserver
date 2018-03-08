@@ -51,19 +51,16 @@
     [client connect:[self getServer] username:self.username password:self.password database:self.database completion:^(BOOL success) {
         if (success) {
             [client execute:@"select 1 as field" completion:^(NSArray* results) {
-                
-                CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Connection succeeded"];
-                [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-
                 [client disconnect];
-
+	                
+                  CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Connection succeeded"];
+                 [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+	                
             }];
         }
         else {
             CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error"];
             [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-            
-            [client disconnect];
         }
     }];
 }
@@ -91,7 +88,6 @@
                     NSString *message =  [NSString stringWithFormat:@"SQL Error [%@]", sql];
                     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message];
                     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-                    [client disconnect];
                     return;
                 }
                 
@@ -99,16 +95,15 @@
                 NSString *jsonString = [[NSString alloc] initWithData:jsonData2 encoding:NSUTF8StringEncoding];
                 CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonString];
                     
-                [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
                 [client disconnect];
-                
+                [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+
             }];
         
         }
         else {
             CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error"];
             [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-            [client disconnect];
         }
     }];
 
@@ -136,21 +131,20 @@
                     NSString *message =  [NSString stringWithFormat:@"SQL Error [%@]", sql];
                     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message];
                     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-                    [client disconnect];
                     return;
                 }
 
                 CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"Ok"];
-                [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 
                 [client disconnect];
+                [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+
             }];
-            
+        
         }
         else {
             CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error"];
             [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-            [client disconnect];
         }
     }];
 

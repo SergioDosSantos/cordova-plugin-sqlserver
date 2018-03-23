@@ -97,6 +97,10 @@ struct COL
 	self.username = username;
 	self.database = database;
 
+    if(host == NULL || username == NULL || password == NULL || database == NULL) {
+        return [self connectionFailure:completion];
+    }
+    
 	/*
 	Copy password into a global C string. This is because in connectionSuccess: and connectionFailure:,
 	dbloginfree() will attempt to overwrite the password in the login struct with zeroes for security.

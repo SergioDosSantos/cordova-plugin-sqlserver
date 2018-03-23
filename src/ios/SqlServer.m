@@ -5,7 +5,7 @@
 
 @implementation SqlServer 
 
-@synthesize server, instance, username, password, database;
+@synthesize server, instance, username, password, database, initialized;
 
 - (void)pluginInitialize {
 }
@@ -36,6 +36,8 @@
 	    result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Parameter database missing or invalid"];
 	}
 
+    initialized = true;
+    
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
@@ -60,7 +62,7 @@
             }];
         }
         else {
-            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error"];
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error connecting to database"];
             [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
             
             [client disconnect];
@@ -70,8 +72,14 @@
 
 
 - (void)executeQuery:(CDVInvokedUrlCommand *)command {
-
  @synchronized(self) {
+     
+     if(!initialized) {
+         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Plugin not initialized"];
+         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+         return;
+     }
+     
  	NSString *query = [command.arguments objectAtIndex:0];
 
 	if (query == nil || [query length] == 0) {
@@ -107,7 +115,7 @@
         
         }
         else {
-            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error"];
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error connecting to database"];
             [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
             [client disconnect];
         }
@@ -117,6 +125,13 @@
 
 - (void)execute:(CDVInvokedUrlCommand *)command {
  @synchronized(self) {
+     
+     if(!initialized) {
+         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Plugin not initialized"];
+         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+         return;
+     }
+
  	NSString *query = [command.arguments objectAtIndex:0];
 
 	if (query == nil || [query length] == 0) {
@@ -149,7 +164,7 @@
             
         }
         else {
-            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error"];
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Error connecting to database"];
             [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
             [client disconnect];
         }
